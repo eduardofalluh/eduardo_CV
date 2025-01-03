@@ -1,0 +1,22 @@
+<div class="intro">
+    <h1>{{ currentLang === 'en' ? 'Eduardo Falluh - Portfolio' : 'Eduardo Falluh - Portfolio (FR)' }}</h1>
+    <p>
+      {{ currentLang === 'en'
+        ? 'Aspiring Software Engineer with core interests in Artificial Intelligence, Cybersecurity, and Application, Game, and Software development. My passion for coding began during a summer program at the University of Cambridge.'
+        : 'Ingénieur logiciel avec des intérêts fondamentaux dans l\'intelligence artificielle, la cybersécurité, et le développement d\'applications, de jeux et de logiciels. Ma passion pour le codage a commencé lors d\'un programme d\'été à l\'Université de Cambridge.' }}
+    </p>
+
+    <button (click)="toggleLanguage()">
+        {{ currentLang === 'en' ? 'FR' : 'EN' }}
+      </button>
+</div>
+  
+<div>
+    <h2>Test Projects</h2>
+    <ul>
+      <li *ngFor="let project of projects">
+        <h3>{{ project.title[currentLang] }}</h3>
+        <p>{{ project.description[currentLang] }}</p>
+      </li>
+    </ul>
+  </div>
