@@ -1,22 +1,45 @@
-<div class="intro">
-    <h1>{{ currentLang === 'en' ? 'Eduardo Falluh - Portfolio' : 'Eduardo Falluh - Portfolio (FR)' }}</h1>
+<header class="header">
+    <div class="logo-container" (click)="toggleDropdown()">
+      <img class="logo" src="./assets/images/EF_logo.jpg" alt="Logo" />
+    </div>
+    <button (click)="toggleLanguage()">
+      {{ currentLang === 'en' ? 'FR' : 'EN' }}
+    </button>
+  </header>
+  
+  <div class="dropdown" [class.active]="isDropdownActive">
+    <div class="dropdown-option" *ngFor="let option of menuOptions; let i = index" [style.animationDelay]="i * 0.2 + 's'">
+      {{ option }}
+    </div>
+  </div>
+  
+  <section class="intro">
     <p>
       {{ currentLang === 'en'
-        ? 'Aspiring Software Engineer with core interests in Artificial Intelligence, Cybersecurity, and Application, Game, and Software development. My passion for coding began during a summer program at the University of Cambridge.'
-        : 'Ingénieur logiciel avec des intérêts fondamentaux dans l\'intelligence artificielle, la cybersécurité, et le développement d\'applications, de jeux et de logiciels. Ma passion pour le codage a commencé lors d\'un programme d\'été à l\'Université de Cambridge.' }}
+        ? "Aspiring Software Engineer with core interests in Artificial Intelligence, Cybersecurity and Application, Game and Software development. Coding has always been a passion of mine ever since I had the opportunity to touch base with Python and Java during a Computer Software summer program at the University of Cambridge. Throughout my experience as a highly recognized NCL Water polo player, I've also developed leadership skills. My experience playing sports enabled me to become the reliable team player I am today."
+        : "Ingénieur logiciel avec des intérêts fondamentaux dans l'intelligence artificielle, la cybersécurité et le développement d'applications, de jeux et de logiciels. Le codage a toujours été une de mes passions depuis que j'ai eu l'opportunité de coder en Python et Java lors d'un programme d'été en logiciels informatiques à l'Université de Cambridge. Tout au long de mon expérience en tant que joueur hautement reconnu de water-polo NCL, j'ai également développé des compétences en leadership. Mon expérience sportive m'a permis de devenir le joueur d'équipe fiable que je suis aujourd'hui." }}
     </p>
-
-    <button (click)="toggleLanguage()">
-        {{ currentLang === 'en' ? 'FR' : 'EN' }}
-      </button>
-</div>
+  </section>
   
-<div>
-    <h2>Test Projects</h2>
-    <ul>
-      <li *ngFor="let project of projects">
-        <h3>{{ project.title[currentLang] }}</h3>
-        <p>{{ project.description[currentLang] }}</p>
-      </li>
-    </ul>
-  </div>
+  <section class="projects">
+    <h2>{{ currentLang === 'en' ? 'Projects' : 'Projets' }}</h2>
+    <div class="project-grid">
+      <div
+        class="project"
+        *ngFor="let project of projects; let i = index"
+        [attr.data-index]="i"
+      >
+        <div class="project-content">
+          <img
+            class="project-img"
+            src="./assets/images/EF_logo.jpg"
+            alt="{{ project.title[currentLang] }}"
+          />
+          <div class="project-text">
+            <h3>{{ project.title[currentLang] }}</h3>
+            <p>{{ project.description[currentLang] }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

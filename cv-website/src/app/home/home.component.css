@@ -1,47 +1,41 @@
+/* Global Reset */
 body {
+    margin: 0;
+    padding: 0;
     background-color: #000;
     color: #fff;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    overflow-x: hidden;
   }
   
-  .intro {
+  h2 {
     text-align: center;
-    margin: 20px 0;
+    margin: 40px 0;
   }
   
-  .slideshow {
+  /* Header Styling */
+  .header {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 10px;
-  }
-  
-  .slide {
-    flex: 0 0 80%;
-    scroll-snap-align: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
     background-color: #111;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
   
-  .slide h2 {
-    margin: 0;
+  .logo {
+    height: 60px;
+    cursor: pointer;
   }
   
-  .slide p {
-    margin: 10px 0 0;
-  }
-
   button {
     background-color: transparent;
     border: 1px solid #fff;
     color: #fff;
     padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
   }
@@ -49,4 +43,107 @@ body {
   button:hover {
     background-color: #fff;
     color: #000;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: transform 0.5s ease;
+    z-index: 1001;
+  }
+  
+  .dropdown.active {
+    transform: translateY(0); /* Dropdown slides in from the top */
+  }
+  
+  .dropdown-option {
+    font-size: 48px;
+    color: #fff;
+    margin: 20px 0;
+    cursor: pointer;
+    opacity: 0;
+    animation: swooshIn 0.7s ease forwards;
+  }
+  
+  .dropdown-option:hover {
+    color: #999; /* Slight hover effect */
+  }
+  
+  /* Swoosh-in Animation */
+  @keyframes swooshIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-200%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Intro Section */
+  .intro {
+    text-align: center;
+    padding: 40px;
+    background-color: #222;
+    margin: 40px auto;
+    border-radius: 10px;
+  }
+  
+  .intro p {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  /* Projects Section */
+  .projects {
+    padding: 40px;
+  }
+  
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  
+  .project {
+    background-color: #111;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .project:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.8);
+  }
+  
+  .project-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .project h3 {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  
+  .project p {
+    font-size: 16px;
+    line-height: 1.4;
   }
