@@ -911,24 +911,28 @@
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET  ≤ 960px
    ============================================================ */
 @media (max-width: 960px) {
+  .header {
+    padding: 14px 24px;
+  }
+
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 110px 6vw 80px;
-    gap: 60px;
+    padding: 100px 6vw 80px;
+    gap: 48px;
+    /* iOS Safari 100vh includes the address bar — use svh with fallback */
+    min-height: 100vh;
+    min-height: 100svh;
   }
 
   .hero-visual {
     padding-left: 0;
   }
 
-  .orb-container {
-    width: 220px;
-    height: 220px;
-  }
+  .orb-container { width: 220px; height: 220px; }
   .orb-1 { width: 220px; height: 220px; }
   .orb-2 { width: 162px; height: 162px; top: 29px; left: 29px; }
   .orb-3 { width: 102px; height: 102px; top: 59px; left: 59px; }
@@ -941,24 +945,201 @@
     grid-template-columns: 1fr;
     gap: 48px;
   }
-
-  .header {
-    padding: 16px 24px;
-  }
 }
 
+/* ============================================================
+   RESPONSIVE — MOBILE  ≤ 600px  (iPhone 14/15: 390px)
+   ============================================================ */
 @media (max-width: 600px) {
-  .project-grid {
-    grid-template-columns: 1fr;
+  .header {
+    padding: 12px 20px;
   }
 
-  .about-stats {
-    grid-template-columns: 1fr 1fr;
+  /* Hide "MENU" label — logo alone is clear enough */
+  .menu-label {
+    display: none;
+  }
+
+  .hero {
+    padding: 88px 5vw 56px;
+    gap: 30px;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .hero-badge {
+    font-size: 10px;
+    padding: 5px 14px;
+    margin-bottom: 18px;
+  }
+
+  .hero-name {
+    margin-bottom: 14px;
   }
 
   .name-first,
   .name-last {
-    font-size: clamp(38px, 12vw, 64px);
+    font-size: clamp(36px, 11vw, 54px);
     letter-spacing: -2px;
+  }
+
+  .hero-tagline {
+    font-size: 14px;
+    min-height: 22px;
+    margin-bottom: 18px;
+    justify-content: center;
+  }
+
+  .hero-tags {
+    gap: 8px;
+    margin-bottom: 24px;
+    justify-content: center;
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+
+  .hero-cta {
+    gap: 12px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 280px;
+    padding: 14px 24px;
+    font-size: 10px;
+    /* Ensure 44px min touch target height */
+    min-height: 44px;
+  }
+
+  /* Smaller orb on phones */
+  .orb-container { width: 180px; height: 180px; }
+  .orb-1 { width: 180px; height: 180px; }
+  .orb-2 { width: 132px; height: 132px; top: 24px; left: 24px; }
+  .orb-3 { width: 84px;  height: 84px;  top: 48px; left: 48px; }
+  .orb-core { width: 64px; height: 64px; }
+
+  /* Hide scroll indicator on phone — it's below the fold */
+  .scroll-indicator { display: none; }
+
+  /* About */
+  .about {
+    padding: 80px 5vw 60px;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .stat-card {
+    padding: 20px 14px;
+  }
+
+  .stat-num {
+    font-size: 28px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* Projects */
+  .projects {
+    padding: 60px 5vw 80px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .project-card {
+    padding: 22px 20px;
+  }
+
+  /* Nav overlay — tighter on small screens */
+  .nav-overlay {
+    padding: 0 7vw;
+  }
+
+  .nav-link {
+    /* 7vw on 390px = ~27px — comfortable nav size */
+    font-size: clamp(22px, 7vw, 38px);
+    padding: 8px 0;
+    gap: 14px;
+    /* 44px min touch target */
+    min-height: 44px;
+  }
+
+  .nav-arrow {
+    display: none; /* too crowded on small phones */
+  }
+
+  .nav-footer {
+    font-size: 10px;
+    bottom: 28px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 48px 5vw 36px;
+  }
+
+  .footer-name {
+    font-size: 22px;
+  }
+
+  .footer-tagline {
+    font-size: 11px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONE  ≤ 390px  (iPhone SE: 375px)
+   ============================================================ */
+@media (max-width: 390px) {
+  .name-first,
+  .name-last {
+    font-size: clamp(32px, 10.5vw, 44px);
+    letter-spacing: -1.5px;
+  }
+
+  .hero-badge {
+    font-size: 9px;
+  }
+
+  .orb-container { width: 150px; height: 150px; }
+  .orb-1 { width: 150px; height: 150px; }
+  .orb-2 { width: 110px; height: 110px; top: 20px; left: 20px; }
+  .orb-3 { width: 70px;  height: 70px;  top: 40px; left: 40px; }
+  .orb-core { width: 54px; height: 54px; }
+
+  .stat-num {
+    font-size: 24px;
+  }
+}
+
+/* ============================================================
+   IOS SAFARI — fill-available height fallback
+   ============================================================ */
+@supports (-webkit-touch-callout: none) {
+  .hero {
+    min-height: -webkit-fill-available;
   }
 }

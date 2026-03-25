@@ -48,3 +48,16 @@ body {
   background: rgba(0, 245, 255, 0.2);
   color: var(--cyan);
 }
+
+/* Touch optimisations */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* iOS fill-available fix */
+.fill-mobile {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100svh;
+}
