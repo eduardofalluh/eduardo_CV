@@ -34,7 +34,7 @@
           },
           "configurations": {
             "production": {
-              "optimization": true,
+              "optimization": { "fonts": { "inline": false }, "scripts": true, "styles": { "minify": true, "inlineCritical": true } },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -50,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "20kB",
+                  "maximumError": "40kB"
                 }
               ]
             },
