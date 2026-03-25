@@ -1,45 +1,149 @@
+<!-- Particle Background -->
+<canvas #particleCanvas class="particle-canvas"></canvas>
+
+<!-- ===== HEADER ===== -->
 <header class="header">
-    <div class="logo-container" (click)="toggleDropdown()">
-      <img class="logo" src="./assets/images/EF_logo.jpg" alt="Logo" />
+  <div class="logo-container" (click)="toggleDropdown()">
+    <div class="logo-wrapper">
+      <img class="logo" src="./assets/images/EF_logo.jpg" alt="EF Logo" />
+      <div class="logo-ring"></div>
     </div>
-    <button (click)="toggleLanguage()">
-      {{ currentLang === 'en' ? 'FR' : 'EN' }}
-    </button>
-  </header>
-  
-  <div class="dropdown" [class.active]="isDropdownActive">
-    <div class="dropdown-option" *ngFor="let option of menuOptions; let i = index" [style.animationDelay]="i * 0.2 + 's'">
-      {{ option }}
+    <span class="menu-label">{{ isDropdownActive ? '✕ CLOSE' : '≡ MENU' }}</span>
+  </div>
+  <button class="lang-btn" (click)="toggleLanguage()">
+    {{ currentLang === 'en' ? 'FR' : 'EN' }}
+  </button>
+</header>
+
+<!-- ===== FULLSCREEN NAV OVERLAY ===== -->
+<div class="nav-overlay" [class.active]="isDropdownActive">
+  <div class="nav-glow nav-glow-1"></div>
+  <div class="nav-glow nav-glow-2"></div>
+  <nav class="nav-links">
+    <a
+      *ngFor="let option of menuOptions; let i = index"
+      class="nav-link"
+      [routerLink]="option.route"
+      [style.transitionDelay]="isDropdownActive ? (i * 0.08 + 0.15) + 's' : '0s'"
+      [class.nav-link--visible]="isDropdownActive"
+      (click)="toggleDropdown()"
+    >
+      <span class="nav-num">0{{ i + 1 }}</span>
+      <span class="nav-text">{{ option.label }}</span>
+      <span class="nav-arrow">&#8594;</span>
+    </a>
+  </nav>
+  <div class="nav-footer">
+    <span>Eduardo Falluh</span>
+    <span>&copy; 2025</span>
+  </div>
+</div>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      {{ currentLang === 'en' ? 'Available for opportunities' : 'Disponible pour des opportunités' }}
+    </div>
+
+    <h1 class="hero-name">
+      <span class="name-first">Eduardo</span>
+      <span class="name-last">Falluh</span>
+    </h1>
+
+    <div class="hero-tagline">
+      <span class="typed-text">{{ typedText }}</span>
+      <span class="cursor">|</span>
+    </div>
+
+    <div class="hero-tags">
+      <span class="hero-tag" *ngFor="let tag of heroTags">{{ tag }}</span>
+    </div>
+
+    <div class="hero-cta">
+      <button class="cta-btn cta-primary" [routerLink]="'/personal-projects'">
+        {{ currentLang === 'en' ? 'View Projects' : 'Voir Projets' }}
+      </button>
+      <button class="cta-btn cta-secondary" [routerLink]="'/professional-experience'">
+        {{ currentLang === 'en' ? 'Experience' : 'Expérience' }}
+      </button>
     </div>
   </div>
-  
-  <section class="intro">
-    <p>
-      {{ currentLang === 'en'
-        ? "Aspiring Software Engineer with core interests in Artificial Intelligence, Cybersecurity and Application, Game and Software development. Coding has always been a passion of mine ever since I had the opportunity to touch base with Python and Java during a Computer Software summer program at the University of Cambridge. Throughout my experience as a highly recognized NCL Water polo player, I've also developed leadership skills. My experience playing sports enabled me to become the reliable team player I am today."
-        : "Ingénieur logiciel avec des intérêts fondamentaux dans l'intelligence artificielle, la cybersécurité et le développement d'applications, de jeux et de logiciels. Le codage a toujours été une de mes passions depuis que j'ai eu l'opportunité de coder en Python et Java lors d'un programme d'été en logiciels informatiques à l'Université de Cambridge. Tout au long de mon expérience en tant que joueur hautement reconnu de water-polo NCL, j'ai également développé des compétences en leadership. Mon expérience sportive m'a permis de devenir le joueur d'équipe fiable que je suis aujourd'hui." }}
-    </p>
-  </section>
-  
-  <section class="projects">
-    <h2>{{ currentLang === 'en' ? 'Projects' : 'Projets' }}</h2>
-    <div class="project-grid">
-      <div
-        class="project"
-        *ngFor="let project of projects; let i = index"
-        [attr.data-index]="i"
-      >
-        <div class="project-content">
-          <img
-            class="project-img"
-            src="./assets/images/EF_logo.jpg"
-            alt="{{ project.title[currentLang] }}"
-          />
-          <div class="project-text">
-            <h3>{{ project.title[currentLang] }}</h3>
-            <p>{{ project.description[currentLang] }}</p>
-          </div>
-        </div>
+
+  <div class="hero-visual">
+    <div class="orb-container">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb-core">
+        <img src="./assets/images/EF_logo.jpg" alt="EF" class="orb-logo" />
       </div>
     </div>
-  </section>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section class="about">
+  <div class="section-header reveal">
+    <span class="section-label">ABOUT</span>
+    <h2>{{ currentLang === 'en' ? 'Who I Am' : 'Qui Suis-Je' }}</h2>
+  </div>
+  <div class="about-container">
+    <div class="about-text reveal">
+      <p>
+        {{ currentLang === 'en'
+          ? "Aspiring Software Engineer with core interests in Artificial Intelligence, Cybersecurity, and Application, Game and Software development. Coding has always been a passion since the University of Cambridge summer program. Throughout my experience as a highly recognized NCL Water polo player, I've developed strong leadership skills that make me a reliable team player."
+          : "Ingénieur logiciel passionné par l'intelligence artificielle, la cybersécurité et le développement d'applications et de jeux. Le codage est ma passion depuis le programme d'été à l'Université de Cambridge. Mon expérience en water-polo NCL m'a forgé comme joueur d'équipe fiable." }}
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card reveal" *ngFor="let stat of stats">
+        <span class="stat-num">{{ stat.num }}</span>
+        <span class="stat-label">{{ currentLang === 'en' ? stat.label.en : stat.label.fr }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS SECTION ===== -->
+<section class="projects">
+  <div class="section-header reveal">
+    <span class="section-label">WORK</span>
+    <h2>{{ currentLang === 'en' ? 'Featured Projects' : 'Projets En Vedette' }}</h2>
+  </div>
+  <div class="project-grid">
+    <div
+      class="project-card reveal"
+      *ngFor="let project of projects; let i = index"
+      [style.transitionDelay]="(i * 0.1) + 's'"
+    >
+      <div class="card-top-line"></div>
+      <div class="card-number">{{ (i < 9 ? '0' : '') + (i + 1) }}</div>
+      <div class="card-body">
+        <h3>{{ project.title[currentLang] }}</h3>
+        <p>{{ project.description[currentLang] }}</p>
+        <div class="card-tags">
+          <span class="card-tag" *ngFor="let tag of project.tags">{{ tag }}</span>
+        </div>
+      </div>
+      <div class="card-bottom-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-name">Eduardo Falluh</div>
+  <div class="footer-tagline">
+    {{ currentLang === 'en' ? "Building Tomorrow's Software" : 'Construire le Logiciel de Demain' }}
+  </div>
+  <div class="footer-copy">&copy; 2025 Eduardo Falluh</div>
+</footer>
