@@ -104,6 +104,10 @@ main {
   min-height: calc(100vh - 72px);
 }
 
+.hero-inner {
+  position: relative;
+}
+
 .hero-backdrop {
   position: absolute;
   inset: 0;
@@ -142,8 +146,8 @@ main {
 .hero-grid {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
-  gap: 4rem;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.9fr);
+  gap: 3rem;
   align-items: center;
 }
 
@@ -190,9 +194,15 @@ main {
 }
 
 .hero h1 {
-  max-width: 10ch;
-  font-size: clamp(3.8rem, 8vw, 7rem);
-  line-height: 0.96;
+  max-width: 8.2ch;
+  font-size: clamp(3.2rem, 6.2vw, 5.8rem);
+  line-height: 0.95;
+}
+
+.hero-eyebrow {
+  max-width: 38rem;
+  line-height: 1.5;
+  word-break: normal;
 }
 
 .hero-text,
@@ -215,10 +225,10 @@ main {
 }
 
 .hero-text {
-  max-width: 43rem;
+  max-width: 34rem;
   margin-top: 1.4rem;
-  font-size: 1.15rem;
-  line-height: 1.75;
+  font-size: 1.06rem;
+  line-height: 1.7;
 }
 
 .hero-actions,
@@ -289,11 +299,13 @@ main {
   justify-self: end;
   transform-style: preserve-3d;
   transition: transform 180ms ease-out;
+  width: 100%;
+  max-width: 32rem;
 }
 
 .device-frame {
   position: relative;
-  width: min(500px, 100%);
+  width: 100%;
   padding: 1rem;
   border-radius: 2.25rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(234, 241, 248, 0.86));
@@ -884,6 +896,16 @@ main {
   .hero h1 {
     max-width: 12ch;
     font-size: clamp(3rem, 14vw, 4.4rem);
+  }
+
+  .hero-eyebrow {
+    max-width: 100%;
+    font-size: 0.74rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hero-text {
+    max-width: 100%;
   }
 
   .metrics,

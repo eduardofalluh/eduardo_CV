@@ -25,51 +25,53 @@
       <div class="hero-backdrop"></div>
       <div class="ambient-layer ambient-layer-one" [style.transform]="ambientTransformOne"></div>
       <div class="ambient-layer ambient-layer-two" [style.transform]="ambientTransformTwo"></div>
-      <div class="hero-grid">
-        <div class="hero-copy reveal is-visible">
-          <p class="eyebrow">Software engineer • portfolio • SAP delivery • agentic systems</p>
-          <h1>Software, systems, and polished digital experiences.</h1>
-          <p class="hero-text">
-            I design and build professional products across web, data, and enterprise environments,
-            combining front-end craft with hands-on SAP implementation support and a growing focus on agentic development.
-          </p>
+      <div class="hero-inner section-block">
+        <div class="hero-grid">
+          <div class="hero-copy reveal is-visible">
+            <p class="eyebrow hero-eyebrow">Software engineer • portfolio • SAP delivery • agentic systems</p>
+            <h1>Software, systems, and polished digital experiences.</h1>
+            <p class="hero-text">
+              I design and build professional products across web, data, and enterprise environments,
+              combining front-end craft with hands-on SAP implementation support and a growing focus on agentic development.
+            </p>
 
-          <div class="hero-actions">
-            <button class="button button-primary" type="button" (click)="scrollToSection('work')">View selected work</button>
-            <button class="button button-secondary" type="button" (click)="scrollToSection('contact')">Contact me</button>
+            <div class="hero-actions">
+              <button class="button button-primary" type="button" (click)="scrollToSection('work')">View selected work</button>
+              <button class="button button-secondary" type="button" (click)="scrollToSection('contact')">Contact me</button>
+            </div>
+
+            <div class="hero-notes">
+              <span>Montreal</span>
+              <span>French / English / Portuguese</span>
+              <span>Open to software opportunities</span>
+            </div>
           </div>
 
-          <div class="hero-notes">
-            <span>Montreal</span>
-            <span>French / English / Portuguese</span>
-            <span>Open to software opportunities</span>
-          </div>
-        </div>
-
-        <div class="hero-device reveal is-visible" [style.transform]="heroDeviceTransform">
-          <div class="device-frame">
-            <div class="device-glow"></div>
-            <div class="device-screen">
-              <div class="screen-top">
-                <span class="screen-pill">Featured profile</span>
-                <span class="screen-meta">2026 portfolio</span>
-              </div>
-
-              <div class="screen-content">
-                <div class="screen-stat">
-                  <strong>Client websites</strong>
-                  <span>retrofitconstruction.ca</span>
-                  <span>silvousplaitsvp.com</span>
+          <div class="hero-device reveal is-visible" [style.transform]="heroDeviceTransform">
+            <div class="device-frame">
+              <div class="device-glow"></div>
+              <div class="device-screen">
+                <div class="screen-top">
+                  <span class="screen-pill">Featured profile</span>
+                  <span class="screen-meta">2026 portfolio</span>
                 </div>
 
-                <div class="screen-highlight">
-                  <p>Syntax</p>
-                  <h3>Agentic Development</h3>
-                  <span>Building an internal AI agent for consultants while bringing SAP delivery context into the product.</span>
-                </div>
+                <div class="screen-content">
+                  <div class="screen-stat">
+                    <strong>Client websites</strong>
+                    <span>retrofitconstruction.ca</span>
+                    <span>silvousplaitsvp.com</span>
+                  </div>
 
-                <div class="screen-orbit orbit-one"></div>
-                <div class="screen-orbit orbit-two"></div>
+                  <div class="screen-highlight">
+                    <p>Syntax</p>
+                    <h3>Agentic Development</h3>
+                    <span>Building an internal AI agent for consultants while bringing SAP delivery context into the product.</span>
+                  </div>
+
+                  <div class="screen-orbit orbit-one"></div>
+                  <div class="screen-orbit orbit-two"></div>
+                </div>
               </div>
             </div>
           </div>
