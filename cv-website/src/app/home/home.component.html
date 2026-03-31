@@ -23,13 +23,15 @@
   <main>
     <section class="hero track-section" data-section="top">
       <div class="hero-backdrop"></div>
+      <div class="ambient-layer ambient-layer-one" [style.transform]="ambientTransformOne"></div>
+      <div class="ambient-layer ambient-layer-two" [style.transform]="ambientTransformTwo"></div>
       <div class="hero-grid">
         <div class="hero-copy reveal is-visible">
-          <p class="eyebrow">Software engineer • portfolio • SAP delivery</p>
+          <p class="eyebrow">Software engineer • portfolio • SAP delivery • agentic systems</p>
           <h1>Software, systems, and polished digital experiences.</h1>
           <p class="hero-text">
             I design and build professional products across web, data, and enterprise environments,
-            combining front-end craft with hands-on SAP implementation support.
+            combining front-end craft with hands-on SAP implementation support and a growing focus on agentic development.
           </p>
 
           <div class="hero-actions">
@@ -44,7 +46,7 @@
           </div>
         </div>
 
-        <div class="hero-device reveal is-visible" [style.transform]="'translateY(' + heroOffset + 'px)'">
+        <div class="hero-device reveal is-visible" [style.transform]="heroDeviceTransform">
           <div class="device-frame">
             <div class="device-glow"></div>
             <div class="device-screen">
@@ -62,8 +64,8 @@
 
                 <div class="screen-highlight">
                   <p>Syntax</p>
-                  <h3>SAP Project Support</h3>
-                  <span>Retail, telecom, automotive, manufacturing, sports, and energy</span>
+                  <h3>Agentic Development</h3>
+                  <span>Building an internal AI agent for consultants while bringing SAP delivery context into the product.</span>
                 </div>
 
                 <div class="screen-orbit orbit-one"></div>
@@ -72,6 +74,13 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="marquee-strip">
+      <div class="marquee-track">
+        <span class="marquee-item" *ngFor="let item of marqueeItems">{{ item }}</span>
+        <span class="marquee-item" *ngFor="let item of marqueeItems">{{ item }}</span>
       </div>
     </section>
 
@@ -86,14 +95,14 @@
       </div>
 
       <div class="metrics-grid">
-        <article class="metric-card reveal" *ngFor="let stat of stats">
+        <article class="metric-card reveal" *ngFor="let stat of stats; let i = index" [style.transitionDelay]="(i * 90) + 'ms'">
           <span class="metric-value">{{ stat.value }}</span>
           <span class="metric-label">{{ stat.label }}</span>
         </article>
       </div>
 
       <div class="project-showcase">
-        <article class="project-card reveal" *ngFor="let project of featuredProjects">
+        <article class="project-card reveal" *ngFor="let project of featuredProjects; let i = index" [style.transitionDelay]="(i * 110) + 'ms'">
           <div class="card-header">
             <span class="card-category">{{ project.category }}</span>
             <a *ngIf="project.href" class="project-link" [href]="project.href" target="_blank" rel="noreferrer">Visit</a>
@@ -110,15 +119,34 @@
       </div>
     </section>
 
+    <section id="focus" class="focus section-block track-section" data-section="focus">
+      <div class="section-intro reveal">
+        <p class="eyebrow">Current focus</p>
+        <h2>Agentic products for real consultant workflows.</h2>
+        <p>
+          My main focus at Syntax now is implementing an internal AI agent for consultants. The goal is practical:
+          improve internal usage, reduce friction, and build something genuinely useful inside the organization.
+        </p>
+      </div>
+
+      <div class="focus-grid">
+        <article class="focus-card reveal" *ngFor="let item of focusCards; let i = index" [style.transitionDelay]="(i * 120) + 'ms'">
+          <span class="focus-index">0{{ i + 1 }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+        </article>
+      </div>
+    </section>
+
     <section class="spotlight section-block">
       <div class="spotlight-panel reveal">
         <div class="spotlight-copy">
           <p class="eyebrow">Professional profile</p>
-          <h2>From client websites to enterprise SAP enablement.</h2>
+          <h2>From client websites to enterprise SAP enablement and internal AI tooling.</h2>
           <p>
             My background spans software engineering, data analytics, workflow implementation, and client support.
             I enjoy turning complex systems into experiences that feel understandable and professional, whether that
-            means shipping a responsive website or preparing SAP environments for large teams.
+            means shipping a responsive website, preparing SAP environments for large teams, or shaping internal AI tools.
           </p>
         </div>
 
@@ -145,15 +173,16 @@
     <section id="syntax" class="syntax section-block track-section" data-section="syntax">
       <div class="section-intro reveal">
         <p class="eyebrow">Syntax experience</p>
-        <h2>SAP project support across multiple industries.</h2>
+        <h2>SAP project support across multiple industries, now evolving toward agentic development.</h2>
         <p>
           At Syntax, I supported implementation and enablement work across client environments including Cloud ALM,
-          starter systems, access provisioning, testing readiness, and SAP Central Business Configuration.
+          starter systems, access provisioning, testing readiness, and SAP Central Business Configuration. My current
+          direction builds on that foundation through internal AI-agent development for consultant use.
         </p>
       </div>
 
       <div class="syntax-grid">
-        <article class="syntax-card reveal" *ngFor="let item of syntaxProjects">
+        <article class="syntax-card reveal" *ngFor="let item of syntaxProjects; let i = index" [style.transitionDelay]="(i * 70) + 'ms'">
           <div class="syntax-top">
             <div>
               <h3>{{ item.client }}</h3>
@@ -244,8 +273,8 @@
           <h2>Professional, adaptable, and comfortable across both code and client-facing delivery.</h2>
           <p>
             I’m a software engineer based in Montreal with experience spanning front-end development, analytics,
-            training, and enterprise support. I like building things that are both technically sound and easy for
-            people to understand.
+            training, enterprise support, and now agentic-product work. I like building things that are both technically
+            sound and easy for people to understand.
           </p>
           <p>
             Outside pure development, I bring a strong teamwork background, communication skills, and experience
@@ -260,7 +289,7 @@
           </div>
           <div class="panel-row">
             <span>Focus</span>
-            <strong>Professional websites, enterprise systems, and product clarity</strong>
+            <strong>Professional websites, enterprise systems, agentic development, and product clarity</strong>
           </div>
           <div class="panel-row">
             <span>Recent highlight</span>

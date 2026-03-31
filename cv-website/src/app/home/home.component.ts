@@ -37,6 +37,11 @@ interface SyntaxItem {
   bullets: string[];
 }
 
+interface FocusItem {
+  title: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -50,9 +55,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   scrollProgress = 0;
   heroOffset = 0;
   activeSection = 'top';
+  pointerX = 0;
+  pointerY = 0;
 
   readonly navItems: NavItem[] = [
     { id: 'work', label: 'Work' },
+    { id: 'focus', label: 'Focus' },
     { id: 'syntax', label: 'Syntax' },
     { id: 'skills', label: 'Skills' },
     { id: 'about', label: 'About' },
@@ -62,8 +70,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly stats: StatItem[] = [
     { value: '2', label: 'live client websites shipped' },
     { value: '8+', label: 'Syntax SAP implementations supported' },
+    { value: 'AI', label: 'current main focus: internal consultant agent' },
     { value: '3', label: 'working languages spoken' },
-    { value: '2024', label: 'Polytechnique software engineering degree' },
+    { value: '2024', label: 'Polytechnique software engineering degree' }
   ];
 
   readonly expertise = [
@@ -83,6 +92,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     'InfluxDB',
     'Figma',
     'AWS',
+    'AI Agents',
+    'Agentic Workflows',
+    'LLM Prototyping',
+  ];
+
+  readonly marqueeItems = [
+    'Agentic Development',
+    'Angular',
+    'SAP Cloud ALM',
+    'AI Consultant Tooling',
+    'TypeScript',
+    'Enterprise UX',
+    'Node.js',
+    'System Enablement',
+  ];
+
+  readonly focusCards: FocusItem[] = [
+    {
+      title: 'Agentic Development',
+      description: 'My main current focus is building an internal AI agent for Syntax consultants so they can work faster, find information quicker, and interact with internal workflows more effectively.',
+    },
+    {
+      title: 'Consultant Enablement',
+      description: 'I am concentrating on practical internal tooling, with emphasis on consultant usability, clarity, and real productivity impact rather than experimentation alone.',
+    },
+    {
+      title: 'Enterprise Readiness',
+      description: 'This work builds on my SAP implementation background, combining system knowledge, process awareness, and software craftsmanship into agentic products for internal use.',
+    },
   ];
 
   readonly featuredProjects: FeaturedProject[] = [
@@ -164,7 +202,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       ],
     },
     {
-      client: 'Sices',
+      client: 'Sciens',
       sector: 'Fire & Life Safety Systems',
       period: 'May 2025',
       summary: 'Helped prepare SAP Cloud ALM testing readiness for distributed data applications.',
@@ -276,6 +314,14 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.handleScroll();
   }
 
+  @HostListener('window:mousemove', ['$event'])
+  onWindowMouseMove(event: MouseEvent): void {
+    const x = event.clientX / window.innerWidth - 0.5;
+    const y = event.clientY / window.innerHeight - 0.5;
+    this.pointerX = x;
+    this.pointerY = y;
+  }
+
   scrollToSection(sectionId: string): void {
     if (sectionId === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -292,6 +338,21 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   trackByNav(_: number, item: NavItem): string {
     return item.id;
+  }
+
+  get heroDeviceTransform(): string {
+    const rotateX = this.pointerY * -10;
+    const rotateY = this.pointerX * 12;
+    const translateY = this.heroOffset;
+    return `perspective(1600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${translateY}px)`;
+  }
+
+  get ambientTransformOne(): string {
+    return `translate3d(${this.pointerX * 30}px, ${this.pointerY * 24}px, 0)`;
+  }
+
+  get ambientTransformTwo(): string {
+    return `translate3d(${this.pointerX * -26}px, ${this.pointerY * -18}px, 0)`;
   }
 
   private handleScroll(): void {
