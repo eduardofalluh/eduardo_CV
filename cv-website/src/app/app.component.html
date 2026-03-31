@@ -1,1 +1,30 @@
-<router-outlet></router-outlet>
+<div class="shell">
+  <div class="shell-ambient shell-ambient-one"></div>
+  <div class="shell-ambient shell-ambient-two"></div>
+  <div class="shell-grid"></div>
+
+  <header class="shell-header">
+    <a class="shell-brand" routerLink="/">
+      <span class="shell-brand-dot"></span>
+      <span>Eduardo Falluh</span>
+    </a>
+
+    <nav class="shell-nav">
+      <a
+        *ngFor="let item of navItems"
+        class="shell-nav-link"
+        [routerLink]="item.link"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+      >
+        {{ item.label }}
+      </a>
+    </nav>
+  </header>
+
+  <main class="shell-main">
+    <div class="route-stage" [@routeAnimations]="prepareRoute(outlet)">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </main>
+</div>
