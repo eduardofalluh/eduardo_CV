@@ -1,237 +1,329 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
-interface Particle {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  opacity: number;
-  color: string;
+interface NavItem {
+  id: string;
+  label: string;
+}
+
+interface StatItem {
+  value: string;
+  label: string;
+}
+
+interface FeaturedProject {
+  title: string;
+  category: string;
+  description: string;
+  outcome: string;
+  tech: string[];
+  href?: string;
+}
+
+interface ExperienceItem {
+  company: string;
+  role: string;
+  period: string;
+  location?: string;
+  summary: string;
+  bullets: string[];
+}
+
+interface SyntaxItem {
+  client: string;
+  sector: string;
+  period: string;
+  summary: string;
+  bullets: string[];
 }
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  standalone: true,
-  imports: [CommonModule, RouterModule],
 })
-export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('particleCanvas') particleCanvas!: ElementRef<HTMLCanvasElement>;
+export class HomeComponent implements AfterViewInit, OnDestroy {
+  readonly currentYear = new Date().getFullYear();
 
-  currentLang: 'en' | 'fr' = 'en';
-  isDropdownActive = false;
-  typedText = '';
+  scrollProgress = 0;
+  heroOffset = 0;
+  activeSection = 'top';
 
-  menuOptions = [
-    { label: 'Personal Projects', route: '/personal-projects' },
-    { label: 'Professional Experience', route: '/professional-experience' },
-    { label: 'Skills', route: '/skills' },
-    { label: 'Education', route: '/education' },
-    { label: 'Extracurricular', route: '/extracurricular' },
+  readonly navItems: NavItem[] = [
+    { id: 'work', label: 'Work' },
+    { id: 'syntax', label: 'Syntax' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'about', label: 'About' },
+    { id: 'contact', label: 'Contact' },
   ];
 
-  stats = [
-    { num: '5+', label: { en: 'Projects', fr: 'Projets' } },
-    { num: '3+', label: { en: 'Languages', fr: 'Langages' } },
-    { num: '2+', label: { en: 'Years Coding', fr: 'Ans de Code' } },
-    { num: '∞', label: { en: 'Passion', fr: 'Passion' } },
+  readonly stats: StatItem[] = [
+    { value: '2', label: 'live client websites shipped' },
+    { value: '8+', label: 'Syntax SAP implementations supported' },
+    { value: '3', label: 'working languages spoken' },
+    { value: '2024', label: 'Polytechnique software engineering degree' },
   ];
 
-  projects = [
+  readonly expertise = [
+    'Angular',
+    'TypeScript',
+    'SAP Cloud ALM',
+    'SAP S/4HANA',
+    'SAPUI5',
+    'Power BI',
+    'Node.js',
+    'Express',
+    'SQL',
+    'MongoDB',
+    'Java',
+    'Python',
+    'Grafana',
+    'InfluxDB',
+    'Figma',
+    'AWS',
+  ];
+
+  readonly featuredProjects: FeaturedProject[] = [
     {
-      title: { en: 'Retrofit Construction Website', fr: 'Site Retrofit Construction' },
-      description: {
-        en: 'Angular-based website showcasing deep energy retrofit projects with a modern UI.',
-        fr: 'Site Angular pour mettre en valeur les projets de rénovation énergétique profonde.',
-      },
-      tags: ['Angular', 'TypeScript', 'CSS'],
+      title: 'retrofitconstruction.ca',
+      category: 'Construction website',
+      description:
+        'Designed and developed a polished Angular website to showcase deep-energy retrofit projects and strengthen the company’s digital presence.',
+      outcome: 'Turned project credibility into a clearer, more professional sales and portfolio experience.',
+      tech: ['Angular', 'TypeScript', 'Responsive UI'],
+      href: 'https://retrofitconstruction.ca',
     },
     {
-      title: { en: 'SAP Management Dashboard', fr: 'Tableau de Bord SAP' },
-      description: {
-        en: 'Interactive dashboards using Power BI and SAP to streamline project management workflows.',
-        fr: 'Tableaux de bord avec Power BI et SAP pour rationaliser la gestion de projet.',
-      },
-      tags: ['Power BI', 'SAP', 'Data Analytics'],
+      title: 'silvousplaitsvp.com',
+      category: 'Event platform',
+      description:
+        'Built a record-label website with RSVP and payment flow support, blending strong visual direction with a practical booking funnel.',
+      outcome: 'Combined branding, event communication, and transaction flow in one streamlined product.',
+      tech: ['Angular', 'Node.js', 'Express', 'SQL'],
+      href: 'https://silvousplaitsvp.com',
     },
     {
-      title: { en: 'Carabins Hockey App', fr: 'Application Hockey Carabins' },
-      description: {
-        en: 'Real-time hockey statistics application built with Java and TypeScript for the UdeM team.',
-        fr: "Application de statistiques de hockey en temps réel avec Java et TypeScript.",
-      },
-      tags: ['Java', 'TypeScript', 'Real-time'],
-    },
-    {
-      title: { en: 'Net Zero Retrofit', fr: 'Rénovation Net Zéro' },
-      description: {
-        en: "Quebec's first Net Zero retrofit project — featured on a dedicated web platform.",
-        fr: 'Premier projet de rénovation Net Zéro au Québec présenté sur une plateforme web.',
-      },
-      tags: ['Sustainability', 'Angular', 'Web'],
-    },
-    {
-      title: { en: 'Cambridge Summer Program', fr: "Programme d'Été Cambridge" },
-      description: {
-        en: 'Advanced summer program at the University of Cambridge focused on Python and Java algorithms.',
-        fr: "Programme d'été avancé à l'Université de Cambridge en Python et algorithmes Java.",
-      },
-      tags: ['Python', 'Java', 'Algorithms'],
+      title: 'Carabins Hockey App',
+      category: 'Sports analytics app',
+      description:
+        'Created an Android application for the Carabins hockey team to track player statistics and team performance.',
+      outcome: 'Translated raw game data into a usable internal performance tool.',
+      tech: ['Java', 'TypeScript', 'MySQL', 'XML'],
     },
   ];
 
-  heroTags = ['AI', 'Cybersecurity', 'Full Stack', 'Game Dev'];
+  readonly experiences: ExperienceItem[] = [
+    {
+      company: 'Retrofit Construction',
+      role: 'Project Manager',
+      period: 'May 2024 - Aug 2024',
+      location: 'Montreal',
+      summary: 'Led digital workflow improvements for a deep-energy retrofit business while also building its public-facing website.',
+      bullets: [
+        'Developed the company website in Angular to present retrofit projects and strengthen online credibility.',
+        'Implemented Buildertrend-based project management workflows to improve budgeting and operational tracking.',
+        'Aligned construction operations with digital tools and supported internal adoption across the team.',
+      ],
+    },
+    {
+      company: 'Projexia',
+      role: 'Software Developer',
+      period: 'May 2022 - Aug 2022',
+      location: 'Montreal',
+      summary: 'Worked on SAP-related client tools, documentation, and dashboards with a focus on workflow clarity and business needs.',
+      bullets: [
+        'Supported debugging of SAP MPRS alongside senior developers.',
+        'Built training documentation for Grafana and InfluxDB data visualization workflows.',
+        'Contributed to a time-tracking solution and interactive dashboards using Power BI and SAP.',
+      ],
+    },
+    {
+      company: 'Kaloom',
+      role: 'Data Analyst',
+      period: 'May 2021 - Aug 2021',
+      location: 'Montreal',
+      summary: 'Used Python and observability tools to extract and visualize network-related data from client systems.',
+      bullets: [
+        'Developed Python scripts to retrieve data directly from client servers.',
+        'Created Grafana and InfluxDB dashboards to visualize network flow fluctuations.',
+      ],
+    },
+  ];
 
-  private particles: Particle[] = [];
-  private animationId = 0;
-  private observer!: IntersectionObserver;
-  private typingTimeout: ReturnType<typeof setTimeout> | null = null;
-  private resizeHandler!: () => void;
+  readonly syntaxProjects: SyntaxItem[] = [
+    {
+      client: 'H&B',
+      sector: 'Retail',
+      period: 'May 2025',
+      summary: 'Supported SAP Cloud ALM onboarding with strong emphasis on secure access management.',
+      bullets: [
+        'Granted client access through IAS Prod and IAS Test/Non-Prod environments.',
+        'Monitored and managed access requests to keep enablement secure and timely.',
+      ],
+    },
+    {
+      client: 'Sices',
+      sector: 'Fire & Life Safety Systems',
+      period: 'May 2025',
+      summary: 'Helped prepare SAP Cloud ALM testing readiness for distributed data applications.',
+      bullets: [
+        'Uploaded test scripts for each DDA in SAP Cloud ALM.',
+        'Supported testing consistency and alignment with client validation cycles.',
+      ],
+    },
+    {
+      client: 'Toyota',
+      sector: 'Automotive',
+      period: 'Jun 2025',
+      summary: 'Provided user access and configuration support during SAP implementation activities.',
+      bullets: [
+        'Provisioned access for users in the TDD system.',
+        'Onboarded users into SAP Central Business Configuration with correct role assignment.',
+      ],
+    },
+    {
+      client: 'MTS',
+      sector: 'Telecommunications',
+      period: 'Aug 2025',
+      summary: 'Supported a large-scale SAP setup covering Cloud ALM, starter systems, and central configuration.',
+      bullets: [
+        'Onboarded up to 125 users into SAP Cloud ALM and starter systems.',
+        'Created test cases for DDAs to support project validation activities.',
+      ],
+    },
+    {
+      client: 'Gymshark',
+      sector: 'Retail / E-Commerce',
+      period: 'Jun 2025',
+      summary: 'Enabled client understanding across CALM, starter, and CBC environments.',
+      bullets: [
+        'Guided the client through SAP environment structure and workflows.',
+        'Explained system navigation to improve client self-sufficiency.',
+      ],
+    },
+    {
+      client: 'Progress Lighting',
+      sector: 'Manufacturing',
+      period: 'Jul 2025',
+      summary: 'Executed logistics support work tied to SAP freight order handling.',
+      bullets: [
+        'Created freight orders using client-specified instructions.',
+        'Ensured accurate and timely execution aligned with supply chain needs.',
+      ],
+    },
+    {
+      client: 'NHL',
+      sector: 'Sports & Entertainment',
+      period: 'Jul 2025',
+      summary: 'Supported early SAP implementation readiness for a multi-solution deployment.',
+      bullets: [
+        'Set up user access in CALM, starter, and CBC environments.',
+        'Coordinated with the client to resolve access requirements and authorizations.',
+      ],
+    },
+    {
+      client: 'Robindale',
+      sector: 'Energy',
+      period: 'Jun 2025',
+      summary: 'Assisted version-upgrade validation work through new Cloud ALM test coverage.',
+      bullets: [
+        'Uploaded updated test scripts for DDAs as part of the SAP 2508 upgrade.',
+        'Helped maintain release-readiness coverage for validation activities.',
+      ],
+    },
+  ];
 
-  private readonly taglines = {
-    en: ["Building Tomorrow's Software", 'AI & Cybersecurity Enthusiast', 'Full Stack Developer', 'Game Dev Passionate'],
-    fr: ['Construire le Logiciel de Demain', "Passionné d'IA & Cybersécurité", 'Développeur Full Stack', 'Passionné de Jeux Vidéo'],
-  };
-  private taglineIndex = 0;
-  private charIndex = 0;
-  private isDeleting = false;
+  readonly education = [
+    {
+      title: 'Bachelor in Software Engineering',
+      school: 'Ecole Polytechnique de Montreal',
+      meta: 'Montreal • 2020 - 2024',
+    },
+    {
+      title: 'Summer Program in Programming',
+      school: 'University of Cambridge',
+      meta: 'Cambridge, England • 2017',
+    },
+  ];
 
-  ngOnInit() {
-    this.startTypingAnimation();
+  readonly certifications = [
+    'Transforming for Success: Solution Transformation with SAP Cloud ALM - 2025',
+    'Managing SAP S/4HANA Cloud Public Edition Projects - 2025',
+  ];
+
+  readonly training = [
+    'Introduction to programming in Python and Java with a Harvard professor - 2017',
+    'SAP environment training during first weeks at Projexia - 2022',
+  ];
+
+  readonly languages = ['French', 'English', 'Portuguese'];
+
+  private observer?: IntersectionObserver;
+
+  ngAfterViewInit(): void {
+    this.handleScroll();
+    this.initializeRevealObserver();
   }
 
-  ngAfterViewInit() {
-    this.initParticles();
-    this.initScrollReveal();
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
   }
 
-  ngOnDestroy() {
-    cancelAnimationFrame(this.animationId);
-    if (this.observer) this.observer.disconnect();
-    if (this.typingTimeout) clearTimeout(this.typingTimeout);
-    if (this.resizeHandler) window.removeEventListener('resize', this.resizeHandler);
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.handleScroll();
   }
 
-  private startTypingAnimation() {
-    const lines = this.taglines[this.currentLang];
-    const current = lines[this.taglineIndex];
-
-    if (this.isDeleting) {
-      this.typedText = current.substring(0, this.charIndex - 1);
-      this.charIndex--;
-    } else {
-      this.typedText = current.substring(0, this.charIndex + 1);
-      this.charIndex++;
+  scrollToSection(sectionId: string): void {
+    if (sectionId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
 
-    let delay = this.isDeleting ? 45 : 90;
-
-    if (!this.isDeleting && this.charIndex === current.length) {
-      delay = 2200;
-      this.isDeleting = true;
-    } else if (this.isDeleting && this.charIndex === 0) {
-      this.isDeleting = false;
-      this.taglineIndex = (this.taglineIndex + 1) % lines.length;
-      delay = 400;
-    }
-
-    this.typingTimeout = setTimeout(() => this.startTypingAnimation(), delay);
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  private initParticles() {
-    const canvas = this.particleCanvas.nativeElement;
-    const ctx = canvas.getContext('2d')!;
-
-    this.resizeHandler = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    this.resizeHandler();
-    window.addEventListener('resize', this.resizeHandler);
-
-    this.particles = [];
-    for (let i = 0; i < 100; i++) {
-      const colorRoll = Math.random();
-      this.particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 1.8 + 0.4,
-        opacity: Math.random() * 0.5 + 0.1,
-        color: colorRoll > 0.7 ? '#00f5ff' : colorRoll > 0.4 ? '#7c3aed' : '#ffffff',
-      });
-    }
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = 0; i < this.particles.length; i++) {
-        for (let j = i + 1; j < this.particles.length; j++) {
-          const dx = this.particles[i].x - this.particles[j].x;
-          const dy = this.particles[i].y - this.particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 245, 255, ${0.12 * (1 - dist / 130)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(this.particles[i].x, this.particles[i].y);
-            ctx.lineTo(this.particles[j].x, this.particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      this.particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.opacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      });
-
-      this.animationId = requestAnimationFrame(draw);
-    };
-    draw();
+  trackByLabel(_: number, item: string): string {
+    return item;
   }
 
-  private initScrollReveal() {
+  trackByNav(_: number, item: NavItem): string {
+    return item.id;
+  }
+
+  private handleScroll(): void {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+
+    this.scrollProgress = Math.min(scrollTop / maxScroll, 1);
+    this.heroOffset = Math.min(scrollTop * 0.18, 120);
+  }
+
+  private initializeRevealObserver(): void {
     this.observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
+            entry.target.classList.add('is-visible');
+          }
+
+          const sectionId = entry.target.getAttribute('data-section');
+          if (entry.isIntersecting && sectionId) {
+            this.activeSection = sectionId;
           }
         });
       },
-      { threshold: 0.08 }
+      {
+        threshold: [0.2, 0.55],
+        rootMargin: '-10% 0px -25% 0px',
+      }
     );
 
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => this.observer.observe(el));
-    }, 300);
-  }
-
-  toggleLanguage() {
-    this.currentLang = this.currentLang === 'en' ? 'fr' : 'en';
-    this.taglineIndex = 0;
-    this.charIndex = 0;
-    this.isDeleting = false;
-    if (this.typingTimeout) clearTimeout(this.typingTimeout);
-    this.startTypingAnimation();
-  }
-
-  toggleDropdown() {
-    this.isDropdownActive = !this.isDropdownActive;
+    document.querySelectorAll('.reveal, .track-section').forEach(element => {
+      this.observer?.observe(element);
+    });
   }
 }
